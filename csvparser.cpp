@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include "datasets.hpp"
-
+#include <algorithm>
 int main(int argc, char *argv[])
 {
 	if(argc != 2)
@@ -77,7 +77,8 @@ int main(int argc, char *argv[])
 	{
 		for(cluster_vec_itr2 = cluster_vec.begin();cluster_vec_itr2 != cluster_vec.end();cluster_vec_itr2++)
 		{
-			sample_dist.name = (*cluster_vec_itr2).name;
+			sample_dist.name1 = (*cluster_vec_itr).name;
+			sample_dist.name2 = (*cluster_vec_itr2).name;
 			sample_dist.distance = distance((*cluster_vec_itr),(*cluster_vec_itr2));
 			(*cluster_vec_itr).distances.push_back(sample_dist);
 		}
@@ -88,10 +89,33 @@ int main(int argc, char *argv[])
 		std::cout << "CLUSTER: " << (*cluster_vec_itr).name << std::endl;
 		for(dist_itr = (*cluster_vec_itr).distances.begin();dist_itr != (*cluster_vec_itr).distances.end();dist_itr++)
 		{
-			std::cout  << (*dist_itr).name << " | " << (*dist_itr).distance<< std::endl;
+			std::cout  << "    "<< (*dist_itr).name2 << " | " << (*dist_itr).distance << std::endl;
 		}
 	}
-	//Sort vectors of distances
-	
+	//Merge vectors of distances
+	std::vector<dist> dist_mat;
+	std::vector<dist>::iterator dist_mat_itr;
+	for(cluster_vec_itr = cluster_vec.begin();cluster_vec_itr != cluster_vec.end();cluster_vec_itr++)
+	{
+		std::cout << "CLUSTER: " << (*cluster_vec_itr).name << std::endl;
+		for(dist_itr = (*cluster_vec_itr).distances.begin();dist_itr != (*cluster_vec_itr).distances.end();dist_itr++)
+		{
+			dist_mat.push_back((*dist_itr));
+		}
+	}
+	//std::cout << "Amount of distances[should be 441]: " << dist_mat.size() << std::endl;
+	//Sort Distance Vector
+	std::sort(dist_mat.begin(), dist_mat.end(),compare);
+	for(dist_mat_itr = dist_mat.begin();dist_mat_itr != dist_mat.end();dist_mat_itr++)
+	{
+		if((*dist_mat_itr).name1 == (*dist_mat_itr).name2)
+		{
+			dist_mat.erase(dist_mat_itr);
+		}
+	}
+	for(dist_mat_itr = dist_mat.begin();dist_mat_itr != dist_mat.end();dist_mat_itr++)
+	{
+		std::cout << (*dist_mat_itr).name1 << " | " << (*dist_mat_itr).name2 << std::endl;
+	}
 	input_vector.clear();
 }

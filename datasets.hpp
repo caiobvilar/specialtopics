@@ -23,7 +23,8 @@ class Dataset2
 
 struct dist
 {
-	std::string name;
+	std::string name1;
+	std::string name2;
 	float distance;
 };
 
@@ -39,10 +40,14 @@ class cluster
 
 float distance(cluster c1,cluster c2)
 {
-	float euc_dist = pow(c1.centroid,2) + pow(c2.centroid,2);
+	float euc_dist = pow(c1.centroid-c2.centroid,2);
 	float a,b;
 	a=(c1.number_elements*c1.number_elements);
 	b=(c1.number_elements+c2.number_elements);
 	return (a/b)*euc_dist;
+}
+bool compare(const dist & first,const dist & second)
+{
+	return first.distance < second.distance;
 }
 #endif
