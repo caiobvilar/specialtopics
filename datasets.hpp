@@ -50,4 +50,8 @@ bool compare(const dist & first,const dist & second)
 {
 	return first.distance < second.distance;
 }
+bool needremoval(const dist & first)
+{
+	return (first.distance == 0);
+}
 #endif

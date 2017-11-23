@@ -66,11 +66,13 @@ int main(int argc, char *argv[])
 		samplecluster.number_elements=1;
 		cluster_vec.push_back(samplecluster);
 	}
-	std::cout << "Amount of Clusters: " << cluster_vec.size() << std::endl;
-	for(cluster_vec_itr = cluster_vec.begin();cluster_vec_itr != cluster_vec.end();cluster_vec_itr++)
-	{
-		std::cout << "Cluster Name: " << (*cluster_vec_itr).name << " Centroid: " << (*cluster_vec_itr).centroid <<  " N of Elements: " << (*cluster_vec_itr).number_elements << std::endl;
-	}
+	/*
+		 std::cout << "Amount of Clusters: " << cluster_vec.size() << std::endl;
+		 for(cluster_vec_itr = cluster_vec.begin();cluster_vec_itr != cluster_vec.end();cluster_vec_itr++)
+		 {
+		 std::cout << "Cluster Name: " << (*cluster_vec_itr).name << " Centroid: " << (*cluster_vec_itr).centroid <<  " N of Elements: " << (*cluster_vec_itr).number_elements << std::endl;
+		 }
+		 */
 	//Calculate distances
 	dist sample_dist;
 	for(cluster_vec_itr = cluster_vec.begin();cluster_vec_itr != cluster_vec.end();cluster_vec_itr++)
@@ -84,20 +86,22 @@ int main(int argc, char *argv[])
 		}
 	}
 	std::vector<dist>::iterator dist_itr;
-	for(cluster_vec_itr = cluster_vec.begin();cluster_vec_itr != cluster_vec.end();cluster_vec_itr++)
-	{
-		std::cout << "CLUSTER: " << (*cluster_vec_itr).name << std::endl;
-		for(dist_itr = (*cluster_vec_itr).distances.begin();dist_itr != (*cluster_vec_itr).distances.end();dist_itr++)
-		{
-			std::cout  << "    "<< (*dist_itr).name2 << " | " << (*dist_itr).distance << std::endl;
-		}
-	}
+	/*
+		 for(cluster_vec_itr = cluster_vec.begin();cluster_vec_itr != cluster_vec.end();cluster_vec_itr++)
+		 {
+		 std::cout << "CLUSTER: " << (*cluster_vec_itr).name << std::endl;
+		 for(dist_itr = (*cluster_vec_itr).distances.begin();dist_itr != (*cluster_vec_itr).distances.end();dist_itr++)
+		 {
+		 std::cout  << "    "<< (*dist_itr).name2 << " | " << (*dist_itr).distance << std::endl;
+		 }
+		 }
+		 */
 	//Merge vectors of distances
 	std::vector<dist> dist_mat;
 	std::vector<dist>::iterator dist_mat_itr;
 	for(cluster_vec_itr = cluster_vec.begin();cluster_vec_itr != cluster_vec.end();cluster_vec_itr++)
 	{
-		std::cout << "CLUSTER: " << (*cluster_vec_itr).name << std::endl;
+		//std::cout << "CLUSTER: " << (*cluster_vec_itr).name << std::endl;
 		for(dist_itr = (*cluster_vec_itr).distances.begin();dist_itr != (*cluster_vec_itr).distances.end();dist_itr++)
 		{
 			dist_mat.push_back((*dist_itr));
@@ -106,16 +110,14 @@ int main(int argc, char *argv[])
 	//std::cout << "Amount of distances[should be 441]: " << dist_mat.size() << std::endl;
 	//Sort Distance Vector
 	std::sort(dist_mat.begin(), dist_mat.end(),compare);
-	for(dist_mat_itr = dist_mat.begin();dist_mat_itr != dist_mat.end();dist_mat_itr++)
-	{
-		if((*dist_mat_itr).name1 == (*dist_mat_itr).name2)
-		{
-			dist_mat.erase(dist_mat_itr);
-		}
-	}
-	for(dist_mat_itr = dist_mat.begin();dist_mat_itr != dist_mat.end();dist_mat_itr++)
-	{
-		std::cout << (*dist_mat_itr).name1 << " | " << (*dist_mat_itr).name2 << std::endl;
-	}
+	std::remove_if(dist_mat.begin(),dist_mat.end(),needremoval);
+	std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| " << std::endl;
+	std::cout << dist_mat.at(0).name1 << " | " << dist_mat.at(0).name2 << " | " << dist_mat.at(0).distance << std::endl;
+	/*
+		 for(dist_mat_itr = dist_mat.begin();dist_mat_itr != dist_mat.end();dist_mat_itr++)
+		 {
+		 std::cout << (*dist_mat_itr).name1 << " | " << (*dist_mat_itr).name2 << " | " << (*dist_mat_itr).distance << std::endl;
+		 }
+		 */
 	input_vector.clear();
 }
