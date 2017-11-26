@@ -113,11 +113,6 @@ int main(int argc, char *argv[])
 	std::remove_if(dist_mat.begin(),dist_mat.end(),needremoval);
 	std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| " << std::endl;
 	std::cout << dist_mat.at(0).name1 << " | " << dist_mat.at(0).name2 << " | " << dist_mat.at(0).distance << std::endl;
-	/*
-		 for(dist_mat_itr = dist_mat.begin();dist_mat_itr != dist_mat.end();dist_mat_itr++)
-		 {
-		 std::cout << (*dist_mat_itr).name1 << " | " << (*dist_mat_itr).name2 << " | " << (*dist_mat_itr).distance << std::endl;
-		 }
-		 */
+	//////////////////////CLEAN INPUT VECTOR
 	input_vector.clear();
 }
